@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+python-dotenv
+google-genai
+httpx
+duckdb
+jinja2
+pytest

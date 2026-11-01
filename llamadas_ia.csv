@@ -1,0 +1,90 @@
+fecha,tecnica,pregunta,respuesta,tokens_entrada,tokens_salida,tiempo_ms,estado
+2026-10-14T23:19:19,zero-shot,"Clasifica este comentario como Positivo, Negativo o Neutro: 'el profe no explica nada'","Este comentario se clasifica como: **Negativo**. 
+
+**Razón:** Expresa una queja clara sobre el desempeño del docente, indicando deficiencias en su método de enseñanza (""no explica nada"").",41,44,2957,200
+2026-10-14T23:19:25,zero-shot,"Clasifica este comentario como Positivo, Negativo o Neutro: 'buena clase, aprendi bastante'","El comentario se clasifica como: **Positivo**. 
+
+**Motivo:** Expresa satisfacción con la calidad de la clase (""buena clase"") y destaca un resultado de aprendizaje favorable (""aprendí bastante"").",43,43,3429,200
+2026-10-14T23:19:32,zero-shot,Que opinan los estudiantes de este docente?,"Con base en los comentarios de los estudiantes, las opiniones sobre el docente son variadas:
+
+**Aspectos positivos:**
+* Explica muy bien y siempre responde a las dudas.
+* Da una buena clase y sus ejemplos ayudan mucho para el parcial.
+
+**Aspectos negativos o a mejorar:**
+* Deja muchos trabajos.
+* A veces llega tarde y se demora en subir las notas.
+
+**Otras opiniones:**
+* Algunos consideran que es normal y que la clase llega a ser un poco aburrida.",114,107,5629,200
+2026-10-14T23:19:49,zero-shot,Cual es el principal punto a mejorar de este docente?,"Con base exclusivamente en los comentarios provistos, no se especifica cuál es el «principal» punto a mejorar, pero los estudiantes señalan los siguientes aspectos negativos o a mejorar:
+
+* A veces llega tarde.
+* Demora en subir las notas.
+* Deja muchos trabajos.
+* La clase es un poco aburrida.",116,69,14939,200
+2026-10-14T23:19:56,few-shot,"Clasifica este comentario como Positivo, Negativo o Neutro: 'el profe no explica nada'",Negativo,101,2,5035,200
+2026-10-14T23:20:01,few-shot,"Clasifica este comentario como Positivo, Negativo o Neutro: 'buena clase, aprendi bastante'",Positivo,103,2,2427,200
+2026-10-14T23:20:10,few-shot,Que opinan los estudiantes de este docente?,"Con base en los comentarios de los estudiantes, las opiniones sobre el docente se dividen en:
+
+* **Aspectos positivos:** Destacan que explica muy bien, siempre responde las dudas, da una buena clase y utiliza ejemplos que ayudan mucho a prepararse para el parcial (calificaciones de 4 y 5 estrellas).
+* **Aspectos negativos:** Señalan que deja muchos trabajos, a veces llega tarde y se demora en subir las notas (calificaciones de 2 y 4 estrellas).
+* **Aspectos neutros:** Se menciona que la clase es ""normal"" y puede resultar un poco aburrida (calificación de 3 estrellas).",174,134,7046,200
+2026-10-14T23:20:31,few-shot,Cual es el principal punto a mejorar de este docente?,"Con base únicamente en los comentarios de los estudiantes, los principales puntos a mejorar son:
+
+* **Puntualidad y entrega de calificaciones:** A veces llega tarde y demora en subir las notas (comentario con la calificación más baja, 2 estrellas).
+* **Carga académica:** Deja muchos trabajos.
+* **Dinamismo:** Se menciona que la clase es un poco aburrida.",176,82,18912,200
+2026-10-14T23:20:38,cot,"Clasifica este comentario como Positivo, Negativo o Neutro: 'el profe no explica nada'","**Análisis del comentario:**
+
+1. **Contenido:** La frase *""el profe no explica nada""* se enfoca directamente en la labor pedagógica y la capacidad de enseñanza del docente.
+2. **Tono y polaridad:** Expresa una queja clara e insatisfacción por parte del estudiante respecto a la falta de claridad, compromiso o metodología del profesor para transmitir el conocimiento.
+3. **Contexto de evaluación:** La explicación de los temas es una de las responsabilidades fundamentales de un docente. Al afirmar que ""no explica nada"", se está señalando una deficiencia grave en su desempeño.
+
+---
+
+**Conclusión:**
+
+El comentario se clasifica como **Negativo**.",58,143,5052,200
+2026-10-14T23:21:00,cot,"Clasifica este comentario como Positivo, Negativo o Neutro: 'buena clase, aprendi bastante'",,0,0,20097,504
+2026-10-14T23:21:13,cot,Que opinan los estudiantes de este docente?,"**Paso a paso: Análisis de cada comentario**
+
+1. **Comentario 1 (5 estrellas):** Destaca que el docente tiene una excelente explicación y siempre está dispuesto a resolver dudas.
+2. **Comentario 2 (4 estrellas):** Considera que la clase es buena, pero menciona como aspecto negativo que asigna una gran cantidad de trabajos.
+3. **Comentario 3 (2 estrellas):** Señala aspectos negativos de puntualidad y gestión, indicando que el docente a veces llega tarde y tarda en publicar las calificaciones.
+4. **Comentario 4 (5 estrellas):** Valora positivamente el contenido práctico, afirmando que los ejemplos vistos en clase son muy útiles para preparar los exámenes parciales.
+5. **Comentario 5 (3 estrellas):** Tiene una percepción neutra (""normal""), comentando que la clase resulta un poco aburrida.
+
+---
+
+**Conclusión:**
+
+Los estudiantes tienen opiniones divididas sobre el docente, con calificaciones que van desde 2 hasta 5 estrellas:
+
+* **Aspectos positivos:** Coinciden en que es una buena clase, explica muy bien, siempre resuelve dudas y sus ejemplos son de gran ayuda para los parciales.
+* **Aspectos a mejorar:** Señalan que deja demasiados trabajos, la clase puede llegar a ser un poco aburrida, en ocasiones llega tarde y se demora en subir las notas.",131,293,10217,200
+2026-10-14T23:21:27,cot,Cual es el principal punto a mejorar de este docente?,"**Análisis paso a paso de los comentarios:**
+
+1. **Comentario 1 (5 estrellas):** *""explica muy bien y siempre responde las dudas""*  
+   Es una evaluación totalmente positiva; no menciona aspectos a mejorar.
+
+2. **Comentario 2 (4 estrellas):** *""buena clase pero deja muchos trabajos""*  
+   Señala un aspecto a mejorar relacionado con la carga académica: asigna demasiados trabajos.
+
+3. **Comentario 3 (2 estrellas):** *""a veces llega tarde y demora en subir las notas""*  
+   Es la evaluación más baja y señala dos aspectos críticos a mejorar: la puntualidad (llegar a tiempo a clase) y la gestión del tiempo para publicar las calificaciones (demora en subir notas).
+
+4. **Comentario 4 (5 estrellas):** *""los ejemplos en clase ayudan mucho para el parcial""*  
+   Es una evaluación totalmente positiva enfocada en la metodología de enseñanza; no menciona aspectos a mejorar.
+
+5. **Comentario 5 (3 estrellas):** *""normal, la clase es un poco aburrida""*  
+   Señala otro aspecto a mejorar respecto a la metodología o dinamismo de la clase (hacerla menos aburrida).
+
+---
+
+**Conclusión:**
+
+Con base exclusivamente en los comentarios, los principales puntos a mejorar del docente son:
+* **La puntualidad y la entrega de calificaciones:** Corregir las llegadas tarde a clase y no demorarse en subir las notas (aspectos señalados en la calificación más baja de 2 estrellas).
+* **La carga de trabajo:** Reducir o balancear la cantidad de trabajos que asigna.
+* **El dinamismo de la clase:** Mejorar el ritmo para que las sesiones no resulten aburridas.",133,378,11902,200

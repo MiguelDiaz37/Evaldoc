@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EvalDoc - Educación superior en Colombia</title>
+<style>
+  :root { --azul: #1f4e79; --gris: #f3f5f8; --borde: #d9dee5; --verde: #2e7d32; --rojo: #c62828; --ambar: #b26a00; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, Segoe UI, Arial, sans-serif; color: #1d2733; background: #fff; }
+  header { background: var(--azul); color: #fff; padding: 18px 24px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 4px 0 0; opacity: .85; font-size: 14px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
+  h2 { font-size: 18px; color: var(--azul); margin: 28px 0 10px; }
+  .tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .tarjeta { background: var(--gris); border: 1px solid var(--borde); border-radius: 8px; padding: 12px; }
+  .tarjeta b { display: block; font-size: 24px; }
+  .tarjeta span { font-size: 13px; color: #4a5868; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 6px 8px; border-bottom: 1px solid var(--borde); text-align: left; }
+  th { background: var(--gris); }
+  td.num, th.num { text-align: right; }
+  .barra { background: var(--azul); height: 14px; border-radius: 3px; }
+  .estado { font-weight: 700; padding: 2px 8px; border-radius: 10px; color: #fff; font-size: 12px; }
+  .CLOSED { background: var(--verde); } .OPEN { background: var(--rojo); } .HALF_OPEN { background: var(--ambar); }
+  .origen { font-size: 13px; color: #4a5868; }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .dos { grid-template-columns: 1fr; } }
+  footer { font-size: 12px; color: #4a5868; margin-top: 30px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>EvalDoc · Educación superior en Colombia</h1>
+  <p>Datos abiertos de datos.gov.co (MEN) y DANE (DIVIPOLA) procesados con DuckDB</p>
+</header>
+<main>
+  <h2>Estado de las APIs (circuit breaker)</h2>
+  <table>
+    <tr><th>Fuente</th><th>Dataset</th><th>Estado</th><th class="num">Fallos seguidos</th><th>Origen de los datos</th></tr>
+    {% for c in circuitos %}
+    <tr>
+      <td>{{ c.fuente }}</td>
+      <td>{{ c.dataset }}</td>
+      <td><span class="estado {{ c.estado }}">{{ c.estado }}</span></td>
+      <td class="num">{{ c.fallos_seguidos }} / {{ c.umbral_fallos }}</td>
+      <td>{{ reporte.origen.instituciones if loop.index == 1 else reporte.origen.municipios }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <p class="origen">"api" = respuesta en vivo · "cache" = última copia guardada (la API falló o el circuito está abierto)</p>
+
+  <h2>Resumen descriptivo</h2>
+  <div class="tarjetas">
+    <div class="tarjeta"><b>{{ reporte.resumen.total_ies }}</b><span>IES registradas</span></div>
+    <div class="tarjeta"><b>{{ reporte.resumen.total_municipios }}</b><span>municipios (DIVIPOLA)</span></div>
+    <div class="tarjeta"><b>{{ reporte.resumen.media_ies_por_departamento }}</b><span>media de IES por departamento</span></div>
+    <div class="tarjeta"><b>{{ reporte.resumen.mediana_ies_por_departamento }}</b><span>mediana</span></div>
+    <div class="tarjeta"><b>{{ reporte.resumen.desviacion_estandar }}</b><span>desviación estándar</span></div>
+    <div class="tarjeta"><b>{{ reporte.resumen.minimo }} – {{ reporte.resumen.maximo }}</b><span>mínimo – máximo</span></div>
+    <div class="tarjeta"><b>{{ reporte.resumen.departamentos_sin_ies }} / {{ reporte.resumen.departamentos }}</b><span>departamentos sin IES</span></div>
+  </div>
+
+  <h2>Consulta 1 · IES por departamento</h2>
+  <table>
+    <tr><th>Departamento</th><th class="num">Total</th><th style="width:30%"></th><th class="num">Oficiales</th><th class="num">Privadas</th><th class="num">Acreditadas</th><th class="num">% acreditadas</th></tr>
+    {% for d in reporte.por_departamento %}
+    <tr>
+      <td>{{ d.departamento }}</td>
+      <td class="num">{{ d.total }}</td>
+      <td><div class="barra" style="width: {{ (100 * d.total / maximo) | round(1) }}%"></div></td>
+      <td class="num">{{ d.oficiales }}</td>
+      <td class="num">{{ d.privadas }}</td>
+      <td class="num">{{ d.acreditadas }}</td>
+      <td class="num">{{ d.pct_acreditadas }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <div class="dos">
+    <div>
+      <h2>Consulta 2 · IES por carácter académico</h2>
+      <table>
+        <tr><th>Carácter</th><th class="num">Total</th><th class="num">%</th><th class="num">% acreditadas</th></tr>
+        {% for c in reporte.por_caracter %}
+        <tr><td>{{ c.caracter }}</td><td class="num">{{ c.total }}</td><td class="num">{{ c.porcentaje }}</td><td class="num">{{ c.pct_acreditadas }}</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div>
+      <h2>Consulta 3 · Cobertura municipal (IES × DIVIPOLA)</h2>
+      <table>
+        <tr><th>Departamento</th><th class="num">Municipios</th><th class="num">Con IES</th><th class="num">% cobertura</th></tr>
+        {% for m in reporte.cobertura_municipal[:12] %}
+        <tr><td>{{ m.departamento }}</td><td class="num">{{ m.municipios }}</td><td class="num">{{ m.municipios_con_ies }}</td><td class="num">{{ m.pct_cobertura }}</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <footer>Fuentes: Ministerio de Educación Nacional, dataset n5yy-8nav; DANE, DIVIPOLA, dataset gdxc-w37w. JSON: <a href="/api/v1/datos-abiertos/estadisticas">/api/v1/datos-abiertos/estadisticas</a> · Circuitos: <a href="/api/v1/datos-abiertos/circuitos">/api/v1/datos-abiertos/circuitos</a></footer>
+</main>
+</body>
+</html>
