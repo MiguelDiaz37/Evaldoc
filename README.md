@@ -111,5 +111,4 @@ pytest -v
 ## Integrantes
 
 - Miguel Diaz
-- Nicolas Sanchez
 - Jhonatan Ardila
