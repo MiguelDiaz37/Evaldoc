@@ -21,7 +21,7 @@ jobs:
       - name: Instalar dependencias bloqueadas
         run: "pip install --require-hashes --only-binary :all: -r requirements.txt"
       - name: Pruebas con cobertura
-        run: python -m pytest -v --cov=app --cov=scripts --cov-report=xml
+        run: python -m pytest -v --cov --cov-report=xml
       - name: Analisis SonarCloud
         uses: SonarSource/sonarqube-scan-action@59202af334b4ba7b5db01b701b8e79f8b3bef0f4 # v8.5.0
         env:
@@ -48,7 +48,7 @@ jobs:
           mutmut results || true
           mutmut badge --output mutation-badge.json
       - name: Exigir mutation score minimo de 50%
-        run: python -m scripts.verificar_mutacion mutants/mutmut-cicd-stats.json 50
+        run: python -m scripts.verificar_mutacion 50
       - name: Publicar badge en la rama badges
         # Va al final porque cambia a la rama badges y borra los archivos del proyecto
         if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'

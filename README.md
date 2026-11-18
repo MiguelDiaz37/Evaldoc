@@ -75,7 +75,7 @@ Se usa [mutmut](https://github.com/boxed/mutmut) para medir si las pruebas detec
 mutmut run
 mutmut results
 mutmut export-cicd-stats
-python -m scripts.verificar_mutacion
+python -m scripts.verificar_mutacion 50
 ```
 
 En el CI el job `mutation` corre mutmut despues de las pruebas, publica el badge en la rama `badges` y falla si el mutation score baja del 50 %.
