@@ -19,11 +19,12 @@ class SqlAlchemyDocenteRepository(DocenteRepository):
     def __init__(self, db: Session):
         self.db = db
 
-    def listar(self, nombre=None):
+    def listar(self, nombre=None, limite=50, desde=0):
         query = self.db.query(DocenteORM)
         if nombre:
             query = query.filter(DocenteORM.nombre.ilike(f"%{nombre}%"))
-        return [a_entidad(f) for f in query.order_by(DocenteORM.nombre).all()]
+        filas = query.order_by(DocenteORM.nombre).offset(desde).limit(limite).all()
+        return [a_entidad(f) for f in filas]
 
     def obtener(self, id_docente):
         fila = self.db.get(DocenteORM, id_docente)

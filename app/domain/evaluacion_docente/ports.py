@@ -5,7 +5,8 @@ from app.domain.evaluacion_docente.entities import Docente
 
 class DocenteRepository(ABC):
     @abstractmethod
-    def listar(self, nombre: str | None = None) -> list[Docente]: ...
+    def listar(self, nombre: str | None = None, limite: int = 50,
+               desde: int = 0) -> list[Docente]: ...
 
     @abstractmethod
     def obtener(self, id_docente: int) -> Docente | None: ...

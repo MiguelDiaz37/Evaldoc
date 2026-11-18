@@ -63,6 +63,19 @@ python -m scripts.crear_usuario admin@academia.umb.edu.co ADMIN
 
 Sin token o con un token invalido o vencido la respuesta es 401; con un rol que no alcanza es 403.
 
+## Seguridad (OWASP API Security Top 10 2023)
+
+Los controles estan documentados en ingles en [docs/owasp-api-top10-2023.md](docs/owasp-api-top10-2023.md). Entre ellos: limite de 5 intentos por minuto por IP en login y registro (429), listado paginado (maximo 100), cabeceras de seguridad, CORS cerrado por defecto, errores 500 sin detalles internos y Swagger apagable en produccion.
+
+Variables de entorno de seguridad:
+
+| Variable | Uso | Valor por defecto |
+|---|---|---|
+| `JWT_SECRET` | clave para firmar los JWT (minimo 32 caracteres) | ninguno, es obligatoria |
+| `DOCS_ACTIVOS` | publicar Swagger en `/docs` | `true` (poner `false` en produccion) |
+| `CORS_ORIGENES` | origenes permitidos, separados por coma | vacio (sin CORS) |
+| `LOGIN_MAX_INTENTOS` / `LOGIN_VENTANA_S` | limite de intentos de login y registro | `5` por `60` segundos |
+
 ## Endpoints
 
 | Metodo | Ruta | Acceso |
@@ -71,7 +84,7 @@ Sin token o con un token invalido o vencido la respuesta es 401; con un rol que 
 | POST | /api/v1/auth/login | publico |
 | GET | /api/v1/usuarios/me | USER o ADMIN |
 | GET | /api/v1/admin/panel | ADMIN |
-| GET | /api/v1/docentes | USER o ADMIN |
+| GET | /api/v1/docentes?nombre=&limite=50&desde=0 | USER o ADMIN |
 | GET | /api/v1/docentes/{id} | USER o ADMIN |
 | POST | /api/v1/docentes | ADMIN |
 | PUT | /api/v1/docentes/{id} | ADMIN |

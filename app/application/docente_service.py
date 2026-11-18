@@ -7,8 +7,8 @@ class DocenteService:
     def __init__(self, repo: DocenteRepository):
         self.repo = repo
 
-    def listar(self, nombre=None):
-        return self.repo.listar(nombre)
+    def listar(self, nombre=None, limite=50, desde=0):
+        return self.repo.listar(nombre, limite, desde)
 
     def obtener(self, id_docente):
         docente = self.repo.obtener(id_docente)

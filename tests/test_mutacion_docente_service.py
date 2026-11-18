@@ -23,7 +23,7 @@ def repo():
 def test_listar_pasa_el_filtro_al_repositorio(repo):
     repo.listar.return_value = []
     DocenteService(repo).listar("Carlos")
-    repo.listar.assert_called_once_with("Carlos")
+    repo.listar.assert_called_once_with("Carlos", 50, 0)
 
 
 def test_obtener_no_existe_da_mensaje_exacto(repo):

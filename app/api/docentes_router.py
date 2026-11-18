@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 
 from app.api.schemas import DocenteIn, DocenteOut
 from app.api.seguridad import cualquier_usuario, solo_admin
@@ -16,13 +16,16 @@ ERROR_404 = {404: {"description": "Professor not found"}}
     "",
     response_model=list[DocenteOut],
     summary="List professors (USER or ADMIN)",
-    description="Returns all professors. You can filter by name with `nombre`.",
+    description="Returns professors ordered by name, 50 per page by default and 100 at most. "
+    "You can filter by name with `nombre` and move through pages with `desde`.",
     dependencies=[Depends(cualquier_usuario)],
     responses=ERROR_401,
 )
-def listar_docentes(nombre: str | None = None,
+def listar_docentes(nombre: str | None = Query(None, max_length=150),
+                    limite: int = Query(50, ge=1, le=100),
+                    desde: int = Query(0, ge=0),
                     service: DocenteService = Depends(get_docente_service)):
-    return service.listar(nombre)
+    return service.listar(nombre, limite, desde)
 
 
 @router.get(

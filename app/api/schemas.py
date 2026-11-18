@@ -3,7 +3,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class DocenteIn(BaseModel):
     nombre: str = Field(min_length=3, max_length=150, examples=["Carlos Perez"])
-    foto_perfil: str | None = None
+    foto_perfil: str | None = Field(default=None, max_length=300, pattern=r"^https://\S+$",
+                                     examples=["https://umb.edu.co/fotos/carlos.png"])
 
 
 class DocenteOut(BaseModel):

@@ -11,7 +11,7 @@ from sqlalchemy import create_engine  # noqa: E402
 from sqlalchemy.orm import sessionmaker  # noqa: E402
 from sqlalchemy.pool import StaticPool  # noqa: E402
 
-from app.container import get_auth_service  # noqa: E402
+from app.container import get_auth_service, limitador_auth  # noqa: E402
 from app.domain.autenticacion.entities import Rol  # noqa: E402
 from app.infrastructure.db.database import Base, get_db  # noqa: E402
 from app.main import app  # noqa: E402
@@ -37,6 +37,7 @@ def get_test_db():
 @pytest.fixture(autouse=True)
 def limpiar_db():
     Base.metadata.create_all(bind=engine)
+    limitador_auth.reiniciar()
     yield
     Base.metadata.drop_all(bind=engine)
 

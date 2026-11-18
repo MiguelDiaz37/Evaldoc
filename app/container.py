@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app import config
 from app.application.auth_service import AuthService
+from app.api.limite_peticiones import LimitadorPeticiones
 from app.application.docente_service import DocenteService
 from app.infrastructure.db.database import get_db
 from app.infrastructure.db.sqlalchemy_docente_repository import SqlAlchemyDocenteRepository
@@ -33,3 +34,6 @@ def get_tokens():
 
 def get_auth_service(db: Session = Depends(get_db)):
     return AuthService(SqlAlchemyUsuarioRepository(db), get_hasher(), get_tokens())
+
+
+limitador_auth = LimitadorPeticiones(config.LOGIN_MAX_INTENTOS, config.LOGIN_VENTANA_S)
