@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Instalar dependencias bloqueadas
-        run: pip install --require-hashes --only-binary :all: -r requirements.txt
+        run: "pip install --require-hashes --only-binary :all: -r requirements.txt"
       - name: Pruebas con cobertura
         run: python -m pytest -v --cov=app --cov-report=xml
       - name: Analisis SonarCloud
