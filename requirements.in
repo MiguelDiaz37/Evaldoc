@@ -5,3 +5,4 @@ python-dotenv
 httpx2
 pytest
 pytest-cov
+mutmut

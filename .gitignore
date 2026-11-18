@@ -9,3 +9,5 @@ venv/
 coverage.xml
 .coverage
 .scannerwork/
+mutants/
+mutation-badge.json

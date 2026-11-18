@@ -21,8 +21,43 @@ jobs:
       - name: Instalar dependencias bloqueadas
         run: "pip install --require-hashes --only-binary :all: -r requirements.txt"
       - name: Pruebas con cobertura
-        run: python -m pytest -v --cov=app --cov-report=xml
+        run: python -m pytest -v --cov=app --cov=scripts --cov-report=xml
       - name: Analisis SonarCloud
         uses: SonarSource/sonarqube-scan-action@59202af334b4ba7b5db01b701b8e79f8b3bef0f4 # v8.5.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  mutation:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Instalar dependencias bloqueadas
+        run: "pip install --require-hashes --only-binary :all: -r requirements.txt"
+      - name: Mutation testing con mutmut
+        run: mutmut run --max-children 4
+      - name: Exportar resultados
+        if: always()
+        run: |
+          mutmut export-cicd-stats
+          mutmut results || true
+          mutmut badge --output mutation-badge.json
+      - name: Publicar badge en la rama badges
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          cp mutation-badge.json /tmp/mutation.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan badges
+          git rm -rfq .
+          cp /tmp/mutation.json mutation.json
+          git add mutation.json
+          git commit -qm "Actualizar badge de mutation testing"
+          git push -f origin badges
+      - name: Exigir mutation score minimo de 50%
+        run: python -m scripts.verificar_mutacion mutants/mutmut-cicd-stats.json 50

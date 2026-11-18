@@ -1,5 +1,10 @@
 # EvalDoc
 
+[![CI](https://github.com/MiguelDiaz37/Evaldoc/actions/workflows/ci.yml/badge.svg)](https://github.com/MiguelDiaz37/Evaldoc/actions/workflows/ci.yml)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=MiguelDiaz37_Evaldoc&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MiguelDiaz37_Evaldoc)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=MiguelDiaz37_Evaldoc&metric=coverage)](https://sonarcloud.io/summary/new_code?id=MiguelDiaz37_Evaldoc)
+[![Mutation score](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/MiguelDiaz37/Evaldoc/badges/mutation.json)](https://github.com/MiguelDiaz37/Evaldoc/actions/workflows/ci.yml)
+
 Proyecto de Taller de Programacion - UMB. Pagina para que los estudiantes califiquen y comenten a sus docentes.
 
 Backend con FastAPI organizado con arquitectura hexagonal. Esta version contiene el CRUD de docentes y las reglas de negocio de la evaluacion docente.
@@ -61,6 +66,19 @@ pytest -v
 ```
 
 Pruebas de dominio, servicio con mocks (`unittest.mock`), endpoints, reglas de arquitectura y seguridad del pipeline. El CI corre las pruebas con cobertura y el analisis de SonarCloud en cada push.
+
+## Mutation testing
+
+Se usa [mutmut](https://github.com/boxed/mutmut) para medir si las pruebas detectan errores. mutmut cambia el codigo de `app/` (por ejemplo `<=` por `<` o un mensaje por `None`) y corre las pruebas: si alguna falla el mutante queda muerto, si todas pasan sobrevive. La configuracion esta en `setup.cfg`.
+
+```
+mutmut run
+mutmut results
+mutmut export-cicd-stats
+python -m scripts.verificar_mutacion
+```
+
+En el CI el job `mutation` corre mutmut despues de las pruebas, publica el badge en la rama `badges` y falla si el mutation score baja del 50 %.
 
 ## Integrantes
 
