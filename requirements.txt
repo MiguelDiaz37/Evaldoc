@@ -7,3 +7,4 @@ httpx
 duckdb
 jinja2
 pytest
+pytest-cov
