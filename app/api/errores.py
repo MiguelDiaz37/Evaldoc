@@ -5,14 +5,8 @@ from app.domain import exceptions as ex
 
 CODIGOS = {
     ex.DatoInvalido: 422,
-    ex.TecnicaInvalida: 422,
     ex.DocenteNoEncontrado: 404,
     ex.DocenteConEvaluaciones: 409,
-    ex.IALimiteAlcanzado: 429,
-    ex.IAError: 502,
-    ex.IANoConfigurada: 503,
-    ex.FuenteNoDisponible: 503,
-    ex.IATiempoAgotado: 504,
 }
 
 
