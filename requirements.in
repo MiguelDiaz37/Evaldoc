@@ -6,3 +6,5 @@ httpx2
 pytest
 pytest-cov
 mutmut
+pyjwt
+bcrypt

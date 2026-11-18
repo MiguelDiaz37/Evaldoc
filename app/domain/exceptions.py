@@ -12,3 +12,19 @@ class DocenteNoEncontrado(ErrorDominio):
 
 class DocenteConEvaluaciones(ErrorDominio):
     pass
+
+
+class CredencialesInvalidas(ErrorDominio):
+    pass
+
+
+class TokenInvalido(ErrorDominio):
+    pass
+
+
+class AccesoDenegado(ErrorDominio):
+    pass
+
+
+class CorreoYaRegistrado(ErrorDominio):
+    pass

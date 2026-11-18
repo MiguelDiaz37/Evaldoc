@@ -7,7 +7,7 @@
 
 Proyecto de Taller de Programacion - UMB. Pagina para que los estudiantes califiquen y comenten a sus docentes.
 
-Backend con FastAPI organizado con arquitectura hexagonal. Esta version contiene el CRUD de docentes y las reglas de negocio de la evaluacion docente.
+Backend con FastAPI organizado con arquitectura hexagonal. Esta version contiene el CRUD de docentes, las reglas de negocio de la evaluacion docente y la autenticacion con JWT y roles (RBAC).
 
 ## Arquitectura hexagonal
 
@@ -15,12 +15,15 @@ Backend con FastAPI organizado con arquitectura hexagonal. Esta version contiene
 app/
   domain/                         nucleo, Python puro
     evaluacion_docente/           Docente, Evaluacion, DocenteRepository
+    autenticacion/                Usuario, Rol, UsuarioRepository, HasherContrasenas, EmisorTokens
     exceptions.py
   application/                    casos de uso (reciben los puertos por constructor)
     docente_service.py
+    auth_service.py
   api/                            adaptadores de entrada (FastAPI)
   infrastructure/                 adaptadores de salida
     db/                           SQLAlchemy
+    seguridad/                    bcrypt y PyJWT
   container.py                    arma las dependencias
   config.py
   main.py
@@ -41,15 +44,38 @@ copy .env.example .env       (en mac/linux: cp)
 uvicorn app.main:app --reload
 ```
 
+En el `.env` hay que poner `JWT_SECRET` (minimo 32 caracteres). Para crear el primer administrador:
+
+```
+python -m scripts.crear_usuario admin@academia.umb.edu.co ADMIN
+```
+
 - Swagger: http://localhost:8000/docs
+
+## Autenticacion y roles
+
+`POST /api/v1/auth/login` recibe correo y contrasena y devuelve un JWT (HS256, vence en 30 minutos) que lleva el correo y el rol. Las rutas protegidas lo reciben en la cabecera `Authorization: Bearer <token>`. Las contrasenas se guardan con bcrypt y solo se aceptan correos `@academia.umb.edu.co`.
+
+| Rol | Puede |
+|---|---|
+| ADMIN | crear, editar y borrar docentes, entrar a `/admin/panel` |
+| USER | consultar docentes y su propio usuario |
+
+Sin token o con un token invalido o vencido la respuesta es 401; con un rol que no alcanza es 403.
 
 ## Endpoints
 
-- GET /api/v1/docentes
-- GET /api/v1/docentes/{id}
-- POST /api/v1/docentes
-- PUT /api/v1/docentes/{id}
-- DELETE /api/v1/docentes/{id}
+| Metodo | Ruta | Acceso |
+|---|---|---|
+| POST | /api/v1/auth/registro | publico (crea cuentas USER) |
+| POST | /api/v1/auth/login | publico |
+| GET | /api/v1/usuarios/me | USER o ADMIN |
+| GET | /api/v1/admin/panel | ADMIN |
+| GET | /api/v1/docentes | USER o ADMIN |
+| GET | /api/v1/docentes/{id} | USER o ADMIN |
+| POST | /api/v1/docentes | ADMIN |
+| PUT | /api/v1/docentes/{id} | ADMIN |
+| DELETE | /api/v1/docentes/{id} | ADMIN |
 
 ## Dependencias
 

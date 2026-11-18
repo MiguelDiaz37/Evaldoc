@@ -21,3 +21,11 @@ class EvaluacionORM(Base):
     comentario = Column(String(500))
 
     docente = relationship("DocenteORM", back_populates="evaluaciones")
+
+
+class UsuarioORM(Base):
+    __tablename__ = "usuario"
+    id_usuario = Column(Integer, primary_key=True)
+    correo = Column(String(150), nullable=False, unique=True, index=True)
+    hash_contrasena = Column(String(100), nullable=False)
+    rol = Column(String(10), nullable=False, default="USER")

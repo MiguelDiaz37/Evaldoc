@@ -2,7 +2,7 @@ import ast
 from pathlib import Path
 
 APP = Path(__file__).resolve().parent.parent / "app"
-LIBRERIAS = ("fastapi", "sqlalchemy", "pydantic", "dotenv")
+LIBRERIAS = ("fastapi", "sqlalchemy", "pydantic", "dotenv", "jwt", "bcrypt")
 
 
 def imports_de(capa):
@@ -32,4 +32,4 @@ def test_infraestructura_no_depende_de_api():
 
 def test_bounded_contexts_del_dominio():
     contextos = {p.name for p in (APP / "domain").iterdir() if p.is_dir() and p.name != "__pycache__"}
-    assert contextos == {"evaluacion_docente"}
+    assert contextos == {"evaluacion_docente", "autenticacion"}
